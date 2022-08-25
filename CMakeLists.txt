@@ -2,10 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 project(libmp4 C CXX)
 
 
-include_directories(AFTER SYSTEM include 
-                    include)
-file(GLOB SOURCE
-    src/*.*)
+include_directories(AFTER SYSTEM include libfutils/include/futils ulog/libulog/include)
+file(GLOB SOURCE src/*.*)
 
 message(${SOURCE})
 add_library(mp4lib ${HEADERS} ${SOURCE})

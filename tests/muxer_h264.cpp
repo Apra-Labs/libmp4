@@ -28,6 +28,7 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
 #include <iostream>
 #include <string>
@@ -38,7 +39,8 @@
 #include <set>
 
 #include "libmp4.h"
-#include<list.h>
+#include "list.h"
+#include "ulog.h"
 
 
 char *mdata_video_keys[] = {"com.parrot.thermal.metaversion",

@@ -57,8 +57,9 @@
 #endif /* !_WIN32 */
 
 #define ULOG_TAG libmp4
-#include <libmp4.h>
-#include <list.h>
+#include "libmp4.h"
+#include "list.h"
+#include "ulog.h"
 
 
 #pragma comment(lib, "Ws2_32.lib")

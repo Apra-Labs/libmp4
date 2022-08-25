@@ -38,8 +38,8 @@
 #define ULOG_TAG mp4_demux_test
 ULOG_DECLARE_TAG(mp4_demux_test);
 
-#include <futils/futils.h>
-#include <libmp4.h>
+//#include <futils/futils.h>
+#include "libmp4.h"
 
 
 #define DATE_SIZE 26

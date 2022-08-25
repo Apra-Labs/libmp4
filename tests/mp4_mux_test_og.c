@@ -37,12 +37,12 @@
 #include <string.h>
 #include <time.h>
 
-#include <futils/futils.h>
-#include <libmp4.h>
+//#include <futils/futils.h>
+#include "libmp4.h"
 
 
 #define ULOG_TAG mp4_mux_test
-#include <ulog.h>
+#include "ulog.h"
 ULOG_DECLARE_TAG(mp4_mux_test);
 
 

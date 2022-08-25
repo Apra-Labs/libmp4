@@ -46,6 +46,15 @@ extern "C" {
 #define FUTILS_LIST_POISON2 ((void *)0xDEADDEAD)
 
 /**
+ * macro used to retrieve number of element of a static fixed array
+ */
+#define FUTILS_SIZEOF_ARRAY(x) (sizeof((x)) / sizeof((x)[0]))
+
+#ifndef SIZEOF_ARRAY
+	#define SIZEOF_ARRAY(x) FUTILS_SIZEOF_ARRAY(x)
+#endif
+
+/**
  * FUTILS_CONTAINER_OF
  * cast a member of a structure out to the containing structure
  *
@@ -223,23 +232,23 @@ list_is_last(const struct list_node *list, const struct list_node *node)
 			tmp = pos->prev; pos != (list);	\
 			pos = tmp, tmp = pos->prev)
 
-#define list_walk_entry_forward(list, pos, member)			\
-	for (pos = list_entry((list)->next, __typeof__(*pos), member);	\
-		&pos->member != (list);					\
-		pos = list_entry(pos->member.next, __typeof__(*pos), member))
+// #define list_walk_entry_forward(list, pos, member)			\
+// 	for (pos = list_entry((list)->next, __typeof__(*pos), member);	\
+// 		&pos->member != (list);					\
+// 		pos = list_entry(pos->member.next, __typeof__(*pos), member))
 
 #define list_walk_entry_backward(list, pos, member)		\
 	for (pos = list_entry((list)->prev, __typeof__(*pos), member);	\
 		&pos->member != (list);					\
 		pos = list_entry(pos->member.prev, __typeof__(*pos), member))
 
-#define list_walk_entry_forward_safe(list, pos, tmp, member)	\
-	for (pos = list_entry((list)->next, __typeof__(*pos), member),	\
-			tmp = list_entry(pos->member.next,		\
-					__typeof__(*pos), member);	\
-		&pos->member != (list);					\
-		pos = tmp, tmp = list_entry(tmp->member.next,	\
-			__typeof__(*tmp), member))
+// #define list_walk_entry_forward_safe(list, pos, tmp, member)	\
+// 	for (pos = list_entry((list)->next, __typeof__(*pos), member),	\
+// 			tmp = list_entry(pos->member.next,		\
+// 					__typeof__(*pos), member);	\
+// 		&pos->member != (list);					\
+// 		pos = tmp, tmp = list_entry(tmp->member.next,	\
+// 			__typeof__(*tmp), member))
 
 #define list_walk_entry_backward_safe(list, pos, tmp, member)	\
 	for (pos = list_entry((list)->prev, __typeof__(*pos), member),	\
@@ -250,6 +259,21 @@ list_is_last(const struct list_node *list, const struct list_node *node)
 			__typeof__(*tmp), member))
 
 
+#define custom_walk(list, pos, member, type)                           	\
+		for (pos = (type *)((uintptr_t)list->next -                    	\
+				    offsetof(type, member));                   			\
+		     &pos->member != (list);                                   	\
+		     pos = (type *)((uintptr_t)pos->member.next -              	\
+				    offsetof(type, member)))
+
+#define custom_safe_walk(list, pos, temp, member, type)                	\
+		for (pos = (type *)((uintptr_t)list->next -                    	\
+				    offsetof(type, member)),							\
+					temp = (type *)((uintptr_t)pos->member.next - 		\
+					offsetof(type, member));                   			\
+		     &pos->member != (list);                                   	\
+		     pos = temp, temp = (type *)((uintptr_t)temp->member.next - \
+				    offsetof(type, member)))
 static inline size_t
 list_length(const struct list_node *list)
 {
