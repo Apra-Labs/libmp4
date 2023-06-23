@@ -17,3 +17,11 @@ target_link_libraries(muxerjpeg mp4lib ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(muxerh264 mp4lib ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(demuxerjpeg mp4lib ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(demuxerh264 mp4lib ${CMAKE_THREAD_LIBS_INIT})
+
+# Installation commands
+install(TARGETS mp4lib muxerjpeg muxerh264 demuxerjpeg demuxerh264
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        RUNTIME DESTINATION bin
+)
+install(DIRECTORY include/ DESTINATION include)
