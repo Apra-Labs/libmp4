@@ -1448,7 +1448,7 @@ MP4_API int mp4_mux_track_add_sample_in_chunks(struct mp4_mux *mux,
 			track->samples.count + 1;
 	}
 
-	ret = fwrite(chunkSample->buffer, sample->len, 1, mux->file);
+	ret = fwrite(chunkSample->buffer, chunkSample->len, 1, mux->file);
 			if (ret != 1) {
 				offset = fseeko(mux->file, offset, SEEK_SET);
 				if (offset == -1)
