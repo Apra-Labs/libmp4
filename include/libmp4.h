@@ -250,7 +250,7 @@ struct mp4_mux_sample {
 	int64_t dts;
 };
 
-struct mp4_mux_sample_chunk {
+struct mp4_mux_prepend_buffer {
 	const uint8_t *buffer;
 	size_t len;
 };
@@ -478,9 +478,9 @@ MP4_API int mp4_mux_track_add_sample(struct mp4_mux *mux,
 				     const struct mp4_mux_sample *sample);
 
 
-MP4_API int mp4_mux_track_add_sample_in_chunks(struct mp4_mux *mux,
+MP4_API int mp4_mux_track_add_sample_with_prepend_buffer(struct mp4_mux *mux,
 				     int track_id,
-				     const struct mp4_mux_sample_chunk *chunkSample,
+				     const struct mp4_mux_prepend_buffer *prepend_buffer,
 					 const struct mp4_mux_sample *sample);
 
 MP4_API int mp4_mux_track_add_scattered_sample(

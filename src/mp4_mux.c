@@ -1394,9 +1394,9 @@ MP4_API int mp4_mux_track_add_scattered_sample(
 	return 0;
 }
 
-MP4_API int mp4_mux_track_add_sample_in_chunks(struct mp4_mux *mux,
+MP4_API int mp4_mux_track_add_sample_with_prepend_buffer(struct mp4_mux *mux,
 				     int track_id,
-				     const struct mp4_mux_sample_chunk *chunkSample,
+				     const struct mp4_mux_prepend_buffer *prepend_buffer,
 					 const struct mp4_mux_sample *sample)
 {
 	ULOG_ERRNO_RETURN_ERR_IF(mux == NULL, EINVAL);
@@ -1410,7 +1410,7 @@ MP4_API int mp4_mux_track_add_sample_in_chunks(struct mp4_mux *mux,
 		return -ENOENT;
 
 	size_t total_size = 0;
-	total_size = chunkSample->len;
+	total_size = prepend_buffer->len;
 	total_size += sample->len;
 
 	ULOGD("adding a %ssample of size %zu at dts %" PRIi64
@@ -1448,7 +1448,7 @@ MP4_API int mp4_mux_track_add_sample_in_chunks(struct mp4_mux *mux,
 			track->samples.count + 1;
 	}
 
-	ret = fwrite(chunkSample->buffer, chunkSample->len, 1, mux->file);
+	ret = fwrite(prepend_buffer->buffer, prepend_buffer->len, 1, mux->file);
 			if (ret != 1) {
 				offset = fseeko(mux->file, offset, SEEK_SET);
 				if (offset == -1)
