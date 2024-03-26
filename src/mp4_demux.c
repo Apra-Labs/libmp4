@@ -411,8 +411,8 @@ int mp4_demux_seek(struct mp4_demux *demux,
 
 	mp4 = &demux->mp4;
 
-	struct list_node *start = &mp4->tracks;
-	custom_walk(start, tk, node, struct mp4_track)
+	struct list_node *start_node = &mp4->tracks;
+	custom_walk(start_node, tk, node, struct mp4_track)
 	{
 		if (tk->type == MP4_TRACK_TYPE_CHAPTERS)
 			continue;
@@ -490,8 +490,8 @@ int mp4_demux_seek_jpeg(struct mp4_demux *demux,
 	/* makes a bigger estimate i.e. start
 	then moves backward till a frame with <= ts is found
 	*/
-	struct list_node *start = &mp4->tracks;
-	custom_walk(start, tk, node, struct mp4_track)
+	struct list_node *start_node = &mp4->tracks;
+	custom_walk(start_node, tk, node, struct mp4_track)
 	{
 		if (tk->type == MP4_TRACK_TYPE_CHAPTERS)
 			continue;
