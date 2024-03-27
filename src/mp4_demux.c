@@ -426,10 +426,13 @@ int mp4_demux_seek(struct mp4_demux *demux,
 					   tk->duration);
 		if (start < 0)
 			start = 0;
-		if ((unsigned)start >= tk->sampleCount) 
+		if ((unsigned)start > tk->sampleCount) 
 		{
-			// start = tk->sampleCount - 1;
 			return -ENFILE;
+		} 
+		else if ((unsigned)start == tk->sampleCount) 
+		{
+			start = tk->sampleCount - 1;
 		}
 		while (((unsigned)start < tk->sampleCount - 1) &&
 		       (tk->sampleDecodingTime[start] < ts))
