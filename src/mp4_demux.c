@@ -643,6 +643,8 @@ int mp4_demux_get_track_info(struct mp4_demux *demux,
 	track_info->sample_offsets = tk->sampleOffset;
 	track_info->sample_sizes = tk->sampleSize;
 	track_info->has_metadata = (tk->metadata) ? 1 : 0;
+	track_info->syncSampleEntryCount = tk->syncSampleEntryCount;
+	track_info->syncSampleEntries = tk->syncSampleEntries;
 	if (tk->metadata) {
 		track_info->metadata_content_encoding =
 			tk->metadata->contentEncoding;
