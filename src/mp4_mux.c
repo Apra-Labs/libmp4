@@ -904,7 +904,7 @@ MP4_API int mp4_mux_sync(struct mp4_mux *mux)
 	if (ret < 0)
 		return ret;
 
-	printf("%s", "<<<<fflush@libmp4>>>>\n");
+	//printf("%s", "<<<<fflush@libmp4>>>>\n");
 	ret = fflush(mux->file);
 	if (ret != 0)
 		return -errno;
