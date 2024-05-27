@@ -411,8 +411,8 @@ int mp4_demux_seek(struct mp4_demux *demux,
 
 	mp4 = &demux->mp4;
 
-	struct list_node *start = &mp4->tracks;
-	custom_walk(start, tk, node, struct mp4_track)
+	struct list_node *start_node = &mp4->tracks;
+	custom_walk(start_node, tk, node, struct mp4_track)
 	{
 		if (tk->type == MP4_TRACK_TYPE_CHAPTERS)
 			continue;
@@ -426,10 +426,13 @@ int mp4_demux_seek(struct mp4_demux *demux,
 					   tk->duration);
 		if (start < 0)
 			start = 0;
-		if ((unsigned)start >= tk->sampleCount) 
+		if ((unsigned)start > tk->sampleCount) 
 		{
-			// start = tk->sampleCount - 1;
 			return -ENFILE;
+		} 
+		else if ((unsigned)start == tk->sampleCount) 
+		{
+			start = tk->sampleCount - 1;
 		}
 		while (((unsigned)start < tk->sampleCount - 1) &&
 		       (tk->sampleDecodingTime[start] < ts))
@@ -490,8 +493,8 @@ int mp4_demux_seek_jpeg(struct mp4_demux *demux,
 	/* makes a bigger estimate i.e. start
 	then moves backward till a frame with <= ts is found
 	*/
-	struct list_node *start = &mp4->tracks;
-	custom_walk(start, tk, node, struct mp4_track)
+	struct list_node *start_node = &mp4->tracks;
+	custom_walk(start_node, tk, node, struct mp4_track)
 	{
 		if (tk->type == MP4_TRACK_TYPE_CHAPTERS)
 			continue;
@@ -640,6 +643,8 @@ int mp4_demux_get_track_info(struct mp4_demux *demux,
 	track_info->sample_offsets = tk->sampleOffset;
 	track_info->sample_sizes = tk->sampleSize;
 	track_info->has_metadata = (tk->metadata) ? 1 : 0;
+	track_info->syncSampleEntryCount = tk->syncSampleEntryCount;
+	track_info->syncSampleEntries = tk->syncSampleEntries;
 	if (tk->metadata) {
 		track_info->metadata_content_encoding =
 			tk->metadata->contentEncoding;
