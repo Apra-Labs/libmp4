@@ -317,6 +317,9 @@ struct mp4_file {
 	unsigned int metaMetadataCount;
 	char **metaMetadataKey;
 	char **metaMetadataValue;
+
+	void *avccData;
+	unsigned int avccSize;
 };
 
 
