@@ -722,6 +722,10 @@ int mp4_demux_get_track_video_decoder_config(
 			vdc->avc.pps = tk->vdc.avc.pps;
 			vdc->avc.pps_size = tk->vdc.avc.pps_size;
 		}
+		if (tk->vdc.avccData) {
+			vdc->avccData = tk->vdc.avccData;
+			vdc->avccSize = tk->vdc.avccSize;
+		}
 		break;
 	default:
 		ULOGE("track id=%d video codec is neither AVC nor HEVC",
