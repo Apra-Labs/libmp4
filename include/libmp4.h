@@ -212,6 +212,9 @@ struct mp4_video_decoder_config {
 	};
 	uint32_t width;
 	uint32_t height;
+
+	void* avccData;
+	unsigned int avccSize;
 };
 
 

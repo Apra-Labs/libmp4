@@ -900,11 +900,11 @@ mp4_box_avcc_read(struct mp4_file *mp4, off_t maxBytes, struct mp4_track *track)
 	uint32_t val32;
 	uint16_t val16;
 
-	mp4->avccData = malloc(maxBytes);
-	memcpy(mp4->avccData, mp4->file->_Placeholder, maxBytes);
-	mp4->avccSize = maxBytes;
-
 	ULOG_ERRNO_RETURN_ERR_IF(track == NULL, EINVAL);
+
+	track->vdc.avccData = malloc(maxBytes);
+	memcpy(track->vdc.avccData, mp4->file->_Placeholder, maxBytes);
+	track->vdc.avccSize = maxBytes;
 
 	CHECK_SIZE(maxBytes, minBytes);
 
