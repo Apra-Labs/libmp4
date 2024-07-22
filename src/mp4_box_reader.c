@@ -902,9 +902,30 @@ mp4_box_avcc_read(struct mp4_file *mp4, off_t maxBytes, struct mp4_track *track)
 
 	ULOG_ERRNO_RETURN_ERR_IF(track == NULL, EINVAL);
 
-	track->vdc.avccData = malloc(maxBytes);
-	memcpy(track->vdc.avccData, mp4->file->_Placeholder, maxBytes);
-	track->vdc.avccSize = maxBytes;
+	long original_pos = ftell(mp4->file);
+	size_t bytesRead = fread(track->vdc.avccData, 1, maxBytes, mp4->file);
+    if (bytesRead < maxBytes) 
+	{
+        if (ferror(mp4->file)) 
+		{
+            free(track->vdc.avccData);
+            ULOG_ERRNO_RETURN_ERR_IF(1, EIO);
+        }
+        if (feof(mp4->file)) 
+		{
+            track->vdc.avccSize = bytesRead; // Set actual size read
+        }
+    } 
+	else 
+	{
+        track->vdc.avccSize = maxBytes; // Set maximum size read
+    }
+
+	if (fseek(mp4->file, original_pos, SEEK_SET) != 0) 
+	{
+        free(track->vdc.avccData);
+        ULOG_ERRNO_RETURN_ERR_IF(1, errno);
+    }
 
 	CHECK_SIZE(maxBytes, minBytes);
 
