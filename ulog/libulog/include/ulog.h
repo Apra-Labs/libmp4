@@ -157,6 +157,6 @@
 		} while (0)
 
 
-#define ULOG_PRI(_prio, ...) printf("ULOG_PRI")
+#define ULOG_PRI(_prio, ...) printf(__VA_ARGS__)
 
 #endif /* _PARROT_ULOG_H */
