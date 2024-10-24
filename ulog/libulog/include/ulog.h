@@ -123,14 +123,33 @@
  * To enable printing a copy of each message to stderr:
  * ULOG_STDERR=y
  */
+
+
+#define ULOG_CRITICAL 2
+#define ULOG_ERROR    3
+#define ULOG_WARNING  4
+#define ULOG_NOTICE   5
+#define ULOG_INFO     6
+#define ULOG_DEBUG    7
+
+static int global_log_level = ULOG_INFO;
+
+void ulog_set_global_log_level(int level);
+
+int ulog_get_global_log_level();
+
+// logging function
+void ulog_log(int level, const char *fmt, ...);
+
+#define ULOGE(...) ulog_log(ULOG_ERROR, __VA_ARGS__)
+#define ULOGC(...) ulog_log(ULOG_CRITICAL, __VA_ARGS__)
+#define ULOGW(...) ulog_log(ULOG_WARNING, __VA_ARGS__)
+#define ULOGN(...) ulog_log(ULOG_NOTICE, __VA_ARGS__)
+#define ULOGI(...) ulog_log(ULOG_INFO, __VA_ARGS__)
+#define ULOGD(...) ulog_log(ULOG_DEBUG, __VA_ARGS__)
+
 #define ULOG_ERRNO(_err, msg, ...) do{} while(0) //printf("%d %s", _err, msg)
 #define ULOGE_ERRNO(_err, _fmt, ...) do{} while(0) // printf("%d %s", _err, _fmt)
-#define ULOGE(...) printf("ULOGE")
-#define ULOGC(...) printf("ULOGC")
-#define ULOGD(...) do{} while(0) //printf("ULOGD")
-#define ULOGI(...) printf("ULOGI")
-#define ULOGW(...) printf("ULOGW")
-#define ULOGN(...) printf("ULOGN")
 #define ULOG_ERRNO_RETURN_ERR_IF(cond, errno)                          \
 		do {                                                           \
 			if (cond) {                                            \
@@ -157,6 +176,6 @@
 		} while (0)
 
 
-#define ULOG_PRI(_prio, ...) printf(__VA_ARGS__)
+#define ULOG_PRI(level, ...) ulog_log(level, __VA_ARGS__)
 
 #endif /* _PARROT_ULOG_H */

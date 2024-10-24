@@ -3,7 +3,7 @@ project(libmp4 C CXX)
 
 
 include_directories(AFTER SYSTEM include libfutils/include/futils ulog/libulog/include)
-file(GLOB SOURCE src/*.*)
+file(GLOB SOURCE src/*.* ulog/libulog/src/ulog.c)
 
 message(${SOURCE})
 add_library(mp4lib STATIC ${HEADERS} ${SOURCE})
