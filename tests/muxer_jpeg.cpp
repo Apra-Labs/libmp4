@@ -38,7 +38,9 @@
 
 #include "libmp4.h"
 #include "list.h"
+extern "C" {
 #include "ulog.h"
+}
 
 
 char *mdata_video_keys[] = {"com.parrot.thermal.metaversion",
