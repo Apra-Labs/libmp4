@@ -101,10 +101,10 @@ void mp4_video_decoder_config_destroy(struct mp4_video_decoder_config *vdc)
 	case MP4_VIDEO_CODEC_AVC:
 		free(vdc->avc.sps);
 		free(vdc->avc.pps);
-		free(vdc->avc.avccData);
+		free(vdc->avccData);
 		vdc->avc.sps = NULL;
 		vdc->avc.pps = NULL;
-		vdc->avc.avccData = NULL;
+		vdc->avccData = NULL;
 		break;
 	case MP4_VIDEO_CODEC_HEVC:
 		free(vdc->hevc.vps);
